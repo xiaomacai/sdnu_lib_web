@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}勤奋的小孩{% endblock %}
+
+
+{% block content %}
+    <div id="container" style="width: 800px;height:450px;"></div>
+    {% block script %}
+        {{ super() }}
+
+        <script>
+            function mod_time(t) {
+                tmp = t[0].split(":");
+                t[0] = Date.UTC(2017, 3, 17, parseInt(tmp[0]), parseInt(tmp[1]));
+                t.push(t[1]);
+                return t;
+            }
+            $(function () {
+                $.getJSON($SCRIPT_ROOT + '/api/diligent', {}, function (data) {
+                    data1 = data['result']['s_time'].map(mod_time);
+                    data2 = data['result']['e_time'].map(mod_time);
+                    var chart = new Highcharts.Chart('container',
+                            {
+                                chart: {
+                                    zoomType: 'x',
+                                    type: 'spline'
+                                },
+                                title: {
+                                    text: '图书馆进馆离馆人数时间变化图'
+                                },
+                                xAxis: {
+                                    type: 'datetime',
+                                    pointInterval: 1000 * 60 * 5,
+                                    pointStart: Date.UTC(2017, 3, 17, 8, 0)
+
+                                },
+                                yAxis: {
+                                  title: {
+                                      text: '人数'
+                                  }
+                                },
+                                tooltip: {
+                                    xDateFormat: '%H:%M',
+                                    share: true
+                                },
+                                series: [{
+                                    name: '达到人数',
+                                    marker: {
+                                        symbol: 'square'
+                                    },
+                                    // 每个气泡包含三个值，x，y，z；其中 x，y用于定位，z 用于计算气泡大小
+                                    data: data1
+                                },
+                                    {
+                                        name: '离开人数',
+                                        marker: {
+                                            symbol: 'diamond'
+                                        },
+                                        // 每个气泡包含三个值，x，y，z；其中 x，y用于定位，z 用于计算气泡大小
+                                        data: data2
+                                    }]
+                            });
+                });
+            });
+
+        </script>
+    {% endblock %}
+{% endblock %}

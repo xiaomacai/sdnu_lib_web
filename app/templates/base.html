@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+    {% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block style %}
+        <link rel="stylesheet" href={{ url_for('static', filename='css/bootstrap.css') }}>
+        <link href={{ url_for('static', filename='css/bootstrap-responsive.css') }} rel="stylesheet">
+    {% endblock %}
+</head>
+</html>
+
+<body>
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src={{ url_for('static', filename='js/bootstrap.js') }}></script>
+    <script src={{ url_for('static', filename='js/highcharts.js') }}></script>
+    <script src={{ url_for('static', filename='js/highcharts-more.js') }}></script>
+    <script src={{ url_for('static', filename='js/exporting.js') }}></script>
+    <script src={{ url_for('static', filename='js/highcharts-zh_CN.js') }}></script>
+    <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root | tojson | safe }}</script>
+{% endblock %}
+
+<div class="container">
+    {% block navbar %}
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    <!-- .btn-navbar 用来切换显示被折叠的导航内容 -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+
+                    <!-- 想要显示的品牌名称 -->
+                    <a class="brand" href="#">小马</a>
+
+                    <!-- 940px 或以下要隐藏的东西，可以放在这里 -->
+                    <div class="nav-collapse collapse">
+                        <!-- .nav, .navbar-search, .navbar-form, 等等 -->
+                        <ul class="nav">
+                            <li><a href="/">首页</a></li>
+                            <li><a href={{ url_for('main.diligent') }}>diligent</a></li>
+                            <li><a href="#">关于</a></li>
+                            <li class="dropdown">
+                                <a href={{ url_for('main.diligent') }} class="dropdown-toggle" data-toggle="dropdown">首页<b
+                                        class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">第二页</a></li>
+                                    <li><a href="#">第二页</a></li>
+                                    <li><a href="#">第二页</a></li>
+                                    <li><a href="#">第二页</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+</body>
